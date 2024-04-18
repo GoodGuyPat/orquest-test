@@ -4,8 +4,18 @@ import psycopg2
 from sqlalchemy import create_engine
 from sqlalchemy import types
 from sqlalchemy.pool import NullPool
+import dotenv
+import os
 
 print("utils imported")
+
+env_file = '../dbcredentials.env'
+dotenv.load_dotenv(env_file)
+
+host = '0.0.0.0'
+user = os.getenv('POSTGRES_USER')
+password = os.getenv('POSTGRES_PASSWORD')
+dbname = os.getenv('POSTGRES_DB')
 
 def connect_db(host, user, password, dbname, schema):
     mydb = psycopg2.connect(
@@ -25,9 +35,34 @@ def ensure_schema_exists(schema_name, cursor, mydb):
 
 # Schema and data types of our tables
 ttypes = {
-        'associations':{'person_id': types.Integer(),
-               'from_date': types.Date(),
-               'to_date': types.Date(),
-               'store_id': types.Integer()
-               }
+        'measures':{
+           'measure': types.String(),
+           'date': types.DateTime(),
+           'value': types.Integer(),
+           'store_id': types.Integer()
+           },
+        'hours':{
+           'day': types.Date(),
+           'hour': types.Integer(),
+           'person_id': types.Integer(),
+           'worked_hours': types.Double()
+           },
+        'associations':{
+           'person_id': types.Integer(),
+           'from_date': types.Date(),
+           'to_date': types.Date(),
+           'store_id': types.Integer()
+           },
+        'contracts':{
+           'person_id': types.Integer(),
+           'cost_per_hour': types.Double(),
+           'from_date': types.Date(),
+           'to_date': types.Date(),
+           },
+        'incidences':{
+           'person_id': types.Integer(),
+           'type_name': types.String(),
+           'from_date': types.Date(),
+           'to_date': types.Date()
            }
+       }
