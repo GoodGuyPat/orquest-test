@@ -1,0 +1,7 @@
+dbt-postgres
+psycopg2-binary
+numpy
+sqlalchemy
+pandas
+requests
+python-dotenv

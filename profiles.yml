@@ -1,0 +1,12 @@
+orquest_dbt:
+  outputs:
+    dev:
+      dbname: orquest_db
+      host: 0.0.0.0
+      pass: orquest
+      port: 5432
+      schema: orquest_analytics
+      threads: 1
+      type: postgres
+      user: orquest
+  target: dev

@@ -1,0 +1,33 @@
+services:
+  my_db:
+    container_name: my_db
+    hostname: my_db
+    env_file:
+      - ./dbcredentials.env
+    image: postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - ./analytics_db:/var/lib/postgresql/data/
+  pgadmin:
+      image: dpage/pgadmin4
+      restart: always
+      environment:
+        PGADMIN_DEFAULT_EMAIL: example@orquest.com
+        PGADMIN_DEFAULT_PASSWORD: password
+      ports:
+        - "5050:80"
+          #   ingest:
+          #     build: .
+          #     depends_on:
+          #       - my_db
+
+  metabase:
+      image: metabase/metabase:latest
+      container_name: metabase
+      hostname: metabase
+      volumes:
+        - ./metabase_data:/metabase.db
+      ports:
+        - 3000:3000
