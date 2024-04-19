@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy import types
 from sqlalchemy.pool import NullPool
 import dotenv
+from datetime import datetime
 import os
 
 print("utils imported")
@@ -33,12 +34,18 @@ def ensure_schema_exists(schema_name, cursor, mydb):
     cursor.execute(f"""CREATE SCHEMA IF NOT EXISTS {schema_name};""")
     mydb.commit()
 
+def cast_comma_decimal_as_float(df, column):
+    df[column] = df.apply(lambda x: float(x[column].replace(',','.')), axis=1)
+
+def cast_d_m_y_h_m_as_datetime(df, column):
+    df[column] = df.apply(lambda x: datetime.strptime(x[column],'%d/%m/%Y %H:%M'), axis=1)
+
 # Schema and data types of our tables
 ttypes = {
         'measures':{
            'measure': types.String(),
            'date': types.DateTime(),
-           'value': types.Integer(),
+           'value': types.Double(),
            'store_id': types.Integer()
            },
         'hours':{
@@ -66,3 +73,16 @@ ttypes = {
            'to_date': types.Date()
            }
        }
+
+tcasts = {
+        'measures':{
+           'date': 'dmy_hm_datetime',
+           'value': 'decimal_with_comma'
+           },
+        'hours':{
+           'worked_hours': 'decimal_with_comma'
+           },
+        'contracts':{
+           'cost_per_hour': 'decimal_with_comma'
+           }
+        }
