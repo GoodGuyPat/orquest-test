@@ -1,4 +1,5 @@
 dbt-postgres
+jupyterlab
 psycopg2-binary
 numpy
 sqlalchemy
