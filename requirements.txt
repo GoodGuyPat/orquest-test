@@ -1,4 +1,5 @@
 dbt-postgres
+matplotlib
 jupyterlab
 psycopg2-binary
 numpy

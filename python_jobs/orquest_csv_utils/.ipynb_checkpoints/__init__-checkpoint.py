@@ -26,17 +26,6 @@ df_names =  [{'associations':associations_raw},
            {'measures':measures_raw}
           ]
 
-def explicit_cast(df_name, df_names):
-        df = df_dict[df_name]
-        for col in df.columns:
-           if col in ocu.tcasts[current_name].keys():
-               match ocu.tcasts[current_name][col]:
-                   case 'decimal_with_comma':
-                       ocu.cast_comma_decimal_as_float(df,col)
-                   case 'dmy_hm_datetime':
-                       ocu.cast_d_m_y_h_m_as_datetime(df,col)
-                   case 'ymd_datetime':
-                       ocu.cast_y_m_d_as_datetime(df,col)
 def connect_db(host, user, password, dbname, schema):
     mydb = psycopg2.connect(
         database=dbname, 
