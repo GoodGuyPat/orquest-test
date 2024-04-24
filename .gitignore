@@ -3,3 +3,4 @@ orquest_env/
 .vscode
 analytics_db
 logs/
+python_jobs/.ipynb_checkpoints
